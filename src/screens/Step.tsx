@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import Header from 'components/Header';
 import Content from 'components/Content';
-import { OnboardingContext, OnboardingStep } from 'context/onboarding';
+import { OnboardingContext } from 'context/onboarding';
 
 function Step() {
   const { steps, currentStep, updateCurrentStep } =

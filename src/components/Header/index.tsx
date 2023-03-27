@@ -24,7 +24,7 @@ function Header() {
       </S.StepsLabel>
       <S.StepsContainer>
         {[...Array(totalSteps).fill(0)].map((step, index) => (
-          <S.Step key={`step-${step}`} active={index <= currentStep} />
+          <S.Step key={`step-${index}`} active={index <= currentStep} />
         ))}
       </S.StepsContainer>
     </S.Container>

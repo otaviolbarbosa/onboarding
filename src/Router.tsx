@@ -1,9 +1,7 @@
 import React from 'react';
 import {
   createBrowserRouter,
-  Link,
   RouterProvider,
-  RedirectFunction,
   createRoutesFromElements,
   Route,
 } from 'react-router-dom';

@@ -15,7 +15,7 @@ function Content() {
 
   const resolveContent = () => {
     switch (step?.content?.type) {
-      case 'info':
+      case 'infolist':
         return (
           <S.InfoList>
             {step?.content?.data?.map((item, index) => (

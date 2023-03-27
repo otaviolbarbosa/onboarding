@@ -16,5 +16,5 @@ export const Step = styled.div.attrs({
   className: 'header-step-item',
 })<{ active: boolean }>`
   background-color: ${({ active }) =>
-    active ? 'var(--primary)' : 'var(--secondary)'};
+    active ? 'var(--primary) !important' : 'var(--secondary) !important'};
 `;

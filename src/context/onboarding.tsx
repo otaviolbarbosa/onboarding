@@ -1,4 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { createGlobalStyle } from 'styled-components';
+
+import styles from '../theme/globalStyles';
 
 export type OnboardingButton = {
   label: string;
@@ -30,6 +33,8 @@ type OnboardingContextParams = {
   steps?: OnboardingStep[];
   currentStep?: OnboardingStep;
   updateCurrentStep: (step?: OnboardingStep) => void;
+  customStyles?: string;
+  updateStyles: (style: string) => void;
 };
 
 type OnboardingProviderProps = {
@@ -38,13 +43,14 @@ type OnboardingProviderProps = {
 
 export const OnboardingContext = React.createContext<OnboardingContextParams>({
   steps: [],
-  currentStep: undefined,
   updateCurrentStep: () => {},
+  updateStyles: () => {},
 });
 
 function OnboardingProvider({ children }: OnboardingProviderProps) {
   const [steps, setSteps] = useState<OnboardingStep[]>();
   const [currentStep, setCurrentStep] = useState<OnboardingStep>();
+  const [customStyles, setCustomStyles] = useState<string>();
 
   useEffect(() => {
     setSteps([
@@ -53,7 +59,7 @@ function OnboardingProvider({ children }: OnboardingProviderProps) {
         subtitle:
           'We need to understand your requirements so we can recommend the appropriate electric vehicle, charger and identify incentives.',
         content: {
-          type: 'info',
+          type: 'infolist',
           data: [
             {
               iconUrl:
@@ -80,7 +86,7 @@ function OnboardingProvider({ children }: OnboardingProviderProps) {
         content: {
           type: 'input',
           properties: {
-            type: 'text',
+            type: 'number',
             label: 'Zip Code',
             helperText: 'Used to check incentive applicability and fuel prices',
             placehokder: '',
@@ -140,13 +146,32 @@ function OnboardingProvider({ children }: OnboardingProviderProps) {
   }, []);
 
   const updateCurrentStep = (step?: OnboardingStep) => setCurrentStep(step);
+  const updateStyles = (style: string) => setCustomStyles(style);
 
   const stepsValue = useMemo(() => ({ steps }), [steps]);
 
+  const resolveGlobalStyle = () => {
+    switch (customStyles) {
+      case 'styled':
+        return styles.styled;
+      default:
+        return styles.normal;
+    }
+  };
+
+  const GlobalStyle = createGlobalStyle`${resolveGlobalStyle()}`;
+
   return (
     <OnboardingContext.Provider
-      value={{ ...stepsValue, currentStep, updateCurrentStep }}
+      value={{
+        ...stepsValue,
+        currentStep,
+        updateCurrentStep,
+        customStyles,
+        updateStyles,
+      }}
     >
+      <GlobalStyle />
       {children}
     </OnboardingContext.Provider>
   );
